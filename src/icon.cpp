@@ -40,21 +40,30 @@ public:
             case 0: // Move up
                 if (!pos.y <= 0) {
                     pos.y -= 1;
+                } else {
+                    direction = rng();
                 }
+                
                 break;
             case 1: // Move down
                 if (pos.y + sprite.getGlobalBounds().height < 800) {
                     pos.y += 1;
+                } else {
+                    direction = rng();
                 }
                 break;
             case 2: // Move left
                 if (!pos.x <= 0) {
                     pos.x -= 1;
+                } else {
+                    direction = rng();
                 }
                 break;
             case 3: // Move right
                 if (pos.x + sprite.getGlobalBounds().width < 1500) {
                     pos.x += 1;
+                } else {
+                    direction = rng();
                 }
                 break;
             default:
