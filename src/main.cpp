@@ -1,12 +1,9 @@
 #include <SFML/Graphics.hpp>
+#include "icon.cpp"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::Texture texture;
-    texture.loadFromFile("img/marioIcon.png");
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
+    sf::RenderWindow window(sf::VideoMode(1500, 800), "Wanted!");
 
     while (window.isOpen())
     {
@@ -17,8 +14,12 @@ int main()
                 window.close();
         }
 
+        Icon mario;
+        mario.setUp("img/marioIcon.png", 750, 400);
+        mario.setPosition(750, 400);
+
         window.clear();
-        window.draw(sprite);
+        window.draw(mario.getSprite());
         window.display();
     }
 
