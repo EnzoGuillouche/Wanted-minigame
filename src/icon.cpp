@@ -2,11 +2,16 @@
 #include <string>
 #include <random>
 
-int rng() {
-    // Pseudo-random direction
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 7);
+// Variables
+sf::Clock movementClock;
+int speed = 5;
+
+// Pseudo-random method
+std::random_device rd;
+std::mt19937 gen(rd());
+
+int rng(int a, int b) {
+    std::uniform_int_distribution<> dis(a, b);
     return dis(gen);
 }
 
@@ -21,7 +26,7 @@ public:
         texture.loadFromFile(path);
         sprite.setTexture(texture);
         sprite.setPosition(x, y);
-        direction = rng();
+        direction = rng(0, 7);
     }
 
     sf::Sprite& getSprite() {
@@ -41,28 +46,28 @@ public:
                 if (!pos.y <= 0) {
                     pos.y -= 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 1: // Move down
                 if (pos.y + sprite.getGlobalBounds().height < 800) {
                     pos.y += 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 2: // Move left
                 if (!pos.x <= 0) {
                     pos.x -= 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 3: // Move right
                 if (pos.x + sprite.getGlobalBounds().width < 1500) {
                     pos.x += 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 4: // Move up & left
@@ -70,7 +75,7 @@ public:
                     pos.y -= 1;
                     pos.x -= 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 5: // Move up & right
@@ -78,7 +83,7 @@ public:
                     pos.y -= 1;
                     pos.x += 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 6: // Move down & right
@@ -86,7 +91,7 @@ public:
                     pos.y += 1;
                     pos.x += 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             case 7: // Move down & left
@@ -94,7 +99,7 @@ public:
                     pos.y += 1;
                     pos.x -= 1;
                 } else {
-                    direction = rng();
+                    direction = rng(0, 7);
                 }
                 break;
             default:
@@ -103,4 +108,41 @@ public:
 
         sprite.setPosition(pos);
     }
+
+    bool hasBeenClicked(sf::Vector2i mousePosition, bool hasClicked) {
+        sf::FloatRect bounds = sprite.getGlobalBounds();
+        return bounds.contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)) && hasClicked;
+    }
+
 };
+
+std::vector<std::unique_ptr<Icon>> icons;
+
+void iconCreation(int numberOfIcons, std::string pathOfIcon) { 
+    for (size_t i = 0; i < numberOfIcons; i++)
+    {
+        icons.push_back(std::make_unique<Icon>());
+        icons.back()->setUp(pathOfIcon, rng(0, 1500), rng(0, 800));
+    }
+}
+
+void iconMovementLoop() {
+    if (movementClock.getElapsedTime().asMilliseconds() > speed) {
+        for (auto& icon : icons) {
+            icon->move();
+        }
+        movementClock.restart();
+    }
+}
+
+void iconEraser(sf::Vector2i mousePosition, bool hasClicked) {
+    icons.erase(
+        std::remove_if(icons.begin(), icons.end(),
+                        [mousePosition, hasClicked](const std::unique_ptr<Icon>& icon) {
+                            return icon->hasBeenClicked(mousePosition, hasClicked);
+                        }
+                    ),
+        icons.end()
+    );
+}
+
