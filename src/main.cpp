@@ -1,32 +1,30 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 #include "icon.cpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1500, 800), "Wanted!");
+    Icon luigi;
+    luigi.setUp("img/luigiIcon.png", 750, 400);
 
-    while (window.isOpen())
-    {
+    sf::Clock clock;
+    int speed = 5;
+
+
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        Icon yoshi;
-        yoshi.setUp("img/yoshiIcon.png", 1200, 400);
-        Icon mario;
-        mario.setUp("img/marioIcon.png", 900, 400);
-        Icon wario;
-        wario.setUp("img/warioIcon.png", 600, 400);
-        Icon luigi;
-        luigi.setUp("img/luigiIcon.png", 300, 400);
+        if (clock.getElapsedTime().asMilliseconds() > speed) {
+            luigi.move();
+            clock.restart();
+        }
 
         window.clear();
-        window.draw(yoshi.getSprite());
-        window.draw(mario.getSprite());
-        window.draw(wario.getSprite());
         window.draw(luigi.getSprite());
         window.display();
     }
