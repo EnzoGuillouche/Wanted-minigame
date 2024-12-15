@@ -6,7 +6,7 @@ int rng() {
     // Pseudo-random direction
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 3);
+    std::uniform_int_distribution<> dis(0, 7);
     return dis(gen);
 }
 
@@ -43,7 +43,6 @@ public:
                 } else {
                     direction = rng();
                 }
-                
                 break;
             case 1: // Move down
                 if (pos.y + sprite.getGlobalBounds().height < 800) {
@@ -62,6 +61,38 @@ public:
             case 3: // Move right
                 if (pos.x + sprite.getGlobalBounds().width < 1500) {
                     pos.x += 1;
+                } else {
+                    direction = rng();
+                }
+                break;
+            case 4: // Move up & left
+                if (!pos.y <= 0 && !pos.x <= 0) {
+                    pos.y -= 1;
+                    pos.x -= 1;
+                } else {
+                    direction = rng();
+                }
+                break;
+            case 5: // Move up & right
+                if (!pos.y <= 0 && pos.x + sprite.getGlobalBounds().width < 1500) {
+                    pos.y -= 1;
+                    pos.x += 1;
+                } else {
+                    direction = rng();
+                }
+                break;
+            case 6: // Move down & right
+                if (pos.y + sprite.getGlobalBounds().height < 800 && pos.x + sprite.getGlobalBounds().width < 1500) {
+                    pos.y += 1;
+                    pos.x += 1;
+                } else {
+                    direction = rng();
+                }
+                break;
+            case 7: // Move down & left
+                if (pos.y + sprite.getGlobalBounds().height < 800 && !pos.x <= 0) {
+                    pos.y += 1;
+                    pos.x -= 1;
                 } else {
                     direction = rng();
                 }
