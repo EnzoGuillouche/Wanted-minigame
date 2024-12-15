@@ -10,7 +10,7 @@ public:
     void setUp(std::string path, int x, int y) {
         texture.loadFromFile(path);
         sprite.setTexture(texture);
-        sprite.setPosition(0, 0);
+        sprite.setPosition(x, y);
     }
 
     sf::Sprite getSprite() {

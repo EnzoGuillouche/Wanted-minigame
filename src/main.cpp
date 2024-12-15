@@ -14,12 +14,20 @@ int main()
                 window.close();
         }
 
+        Icon yoshi;
+        yoshi.setUp("img/yoshiIcon.png", 1200, 400);
         Icon mario;
-        mario.setUp("img/marioIcon.png", 750, 400);
-        mario.setPosition(750, 400);
+        mario.setUp("img/marioIcon.png", 900, 400);
+        Icon wario;
+        wario.setUp("img/warioIcon.png", 600, 400);
+        Icon luigi;
+        luigi.setUp("img/luigiIcon.png", 300, 400);
 
         window.clear();
+        window.draw(yoshi.getSprite());
         window.draw(mario.getSprite());
+        window.draw(wario.getSprite());
+        window.draw(luigi.getSprite());
         window.display();
     }
 
