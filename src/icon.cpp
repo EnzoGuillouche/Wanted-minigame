@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <bits/unique_ptr.h>
 #include <string>
 #include <random>
 
@@ -25,7 +26,7 @@ public:
     void setUp(std::string path, int x, int y) {
         texture.loadFromFile(path);
         sprite.setTexture(texture);
-        sprite.setPosition(x, y);
+        setPosition(x, y);
         direction = rng(0, 7);
     }
 
@@ -43,7 +44,7 @@ public:
 
         switch (direction) {
             case 0: // Move up
-                if (!pos.y <= 0) {
+                if (pos.y > 0) {
                     pos.y -= 1;
                 } else {
                     direction = rng(0, 7);
@@ -57,7 +58,7 @@ public:
                 }
                 break;
             case 2: // Move left
-                if (!pos.x <= 0) {
+                if (pos.x > 0) {
                     pos.x -= 1;
                 } else {
                     direction = rng(0, 7);
@@ -71,7 +72,7 @@ public:
                 }
                 break;
             case 4: // Move up & left
-                if (!pos.y <= 0 && !pos.x <= 0) {
+                if (pos.y > 0 && pos.x > 0) {
                     pos.y -= 1;
                     pos.x -= 1;
                 } else {
@@ -79,7 +80,7 @@ public:
                 }
                 break;
             case 5: // Move up & right
-                if (!pos.y <= 0 && pos.x + sprite.getGlobalBounds().width < 1500) {
+                if (pos.y > 0 && pos.x + sprite.getGlobalBounds().width < 1500) {
                     pos.y -= 1;
                     pos.x += 1;
                 } else {
@@ -95,7 +96,7 @@ public:
                 }
                 break;
             case 7: // Move down & left
-                if (pos.y + sprite.getGlobalBounds().height < 800 && !pos.x <= 0) {
+                if (pos.y + sprite.getGlobalBounds().height < 800 && pos.x > 0) {
                     pos.y += 1;
                     pos.x -= 1;
                 } else {

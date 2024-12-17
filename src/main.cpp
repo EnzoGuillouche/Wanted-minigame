@@ -7,10 +7,10 @@
 int main()
 {
     // Icons are generated here
-    iconCreation(3, "img/luigiIcon.png");
-    iconCreation(1, "img/marioIcon.png");
-    iconCreation(5, "img/warioIcon.png");
-    iconCreation(9, "img/yoshiIcon.png");
+    iconCreation(2, "img/luigiIcon.png");
+    iconCreation(2, "img/marioIcon.png");
+    iconCreation(2, "img/warioIcon.png");
+    iconCreation(2, "img/yoshiIcon.png");
 
     sf::RenderWindow window(sf::VideoMode(1500, 800), "Wanted!");
     while (window.isOpen()) {
